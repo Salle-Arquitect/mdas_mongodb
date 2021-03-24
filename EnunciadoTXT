@@ -3,10 +3,55 @@ Dada la base de datos de restaurantes que en la que en la teoría se describe co
 
 
 1.	¿Cuantos restaurantes hay en la base de datos? Indica cuantos y como has obtenido el resultado.
+```
+> db.restaurants.count()
+25359
+
 2.	Busca los restaurantes donde sirvan Tea y otras cosas.
+Investigando:
+```
+> db.restaurants.distinct("cuisine")
+```
+
+Resultado:
+```
+> db.restaurants.find({"cuisine":/\bTea\b/}).count()
+1216
+```
+
 3.	Busca los restaurantes donde sirvan Tea y otras cosas y no sean Starbucks Coffee
+Investigando
+```
+> db.restaurants.find({"cuisine":/\bTea\b/, "name":"Starbucks"}).count()
+11
+
+> db.restaurants.find({"cuisine":/\bTea\b/, "name":/(?!Starbucks)/}).count()
+1216
+
+> db.restaurants.find({"cuisine":/\bTea\b/, "name":/^Starbucks/}).count()
+276
+
+
+1216 - 940 = 276, se espera 940
+```
+
+Resultado:
+```
+> db.restaurants.find({"cuisine":/\bTea\b/, "name":/^(?!Starbucks)/}).count()
+940
+```
+
 4.	De la consulta anterior ahora debe devolver solo el name y el borough.
+```
+> db.restaurants.find({"cuisine":/\bTea\b/, "name":/^(?!Starbucks)/}, {"name":1, "_id":0,"borough":1})
+```
+
 5.	Realiza una consulta que devuelva los restaurantes con puntuaciones mayores al 30-11-2014
+```
+> db.restaurants.find({ "grades.date": {$gt:ISODate("2013-03-11") } }).count()
+24614
+```
+
 6.	Realiza una consulta que devuelva el restaurantes con puntuaciones mayores al 11-03-2014, tenga una grade igual a “A” y sea de comida Chinese.
 7.	Realiza una consulta que devuelva el restaurante con puntuaciones mayores al 10-01-2013 y que esa puntuación tenga una grade igual a “B” y a su vez esa puntuación tenga un score de 5 y que ese restaurante sea de comida Chinese.
 8.	Realiza una consulta que muestre los distintos tipos de restaurantes (cuisine) que hay (sin utilizar distinct).
