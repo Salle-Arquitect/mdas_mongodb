@@ -48,8 +48,8 @@ Resultado:
 
 5.	Realiza una consulta que devuelva los restaurantes con puntuaciones mayores al 30-11-2014
 ```
-> db.restaurants.find({ "grades.date": {$gt:ISODate("2013-03-11") } }).count()
-24614
+> db.restaurants.find({ "grades.date": {$gt:ISODate("2014-03-11") } }).count()
+22233
 ```
 
 6.	Realiza una consulta que devuelva el restaurantes con puntuaciones mayores al 11-03-2014, tenga una grade igual a “A” y sea de comida Chinese.
