@@ -293,5 +293,9 @@ db.restaurants.updateMany(
 )
 ```
 
-14.	¿Cuál seria el comando para borrar todos los restaurantes de comida Mediterranea?
+# 14. ¿Cuál seria el comando para borrar todos los restaurantes de comida Mediterranea?
+```mongo
+db.restaurants.remove({ "cuisine" : "Mediterranean" })
+```
+
 15.	¿Con que comando borrarías toda la colección restaurants?
