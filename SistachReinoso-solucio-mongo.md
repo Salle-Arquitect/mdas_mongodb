@@ -275,13 +275,11 @@ db.restaurants.insert({
   "name" : "Pa amb Tomaquet",
   "cuisine" : "Mediterranean",
   "grades" :[{
-    "date" : new Date($year, $month, $dayOfMonth),
+    "date" : new Date(),
     "score" : 15,
     "grade" : "A"
   }]
 })
-```
-TODO pendent de com crear la data d'avui!
 
 # 13. ¿Cuál seria el comando para cambiar todos los restaurantes de comida Italian a Mediterranea?
 ```mongo
