@@ -37,15 +37,14 @@ He obtenido el resultado con el siguiente comando de mongo:
 Hay un total de 1216 restaurantes que sirvan Tea.
 Un total de 259 restaurantes que sirvan Tea siendo de Starbucks Coffee.
 Esto implica que hay un total de 957 restaurantes que sirven Tea que no son de Starbucks Coffee.
-
 ## Resultado
 ```mongo
 > db.restaurants.find({$and:[{"cuisine":/\bTea\b/},{"name":{$not:/Starbucks Coffee/}}]}).pretty()
 ```
 
-4.	De la consulta anterior ahora debe devolver solo el name y el borough.
-```
-> db.restaurants.find({"cuisine":/\bTea\b/, "name":/^(?!Starbucks)/}, {"name":1, "_id":0,"borough":1})
+# 4. De la consulta anterior ahora debe devolver solo el name y el borough.
+```mongo
+> db.restaurants.find({$and:[{"cuisine":/\bTea\b/},{"name":{$not:/Starbucks Coffee/}}]}, {"name":1, "_id":0,"borough":1})
 ```
 
 5.	Realiza una consulta que devuelva los restaurantes con puntuaciones mayores al 30-11-2014
