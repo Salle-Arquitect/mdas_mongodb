@@ -1,6 +1,5 @@
 Dada la base de datos de restaurantes que en la que en la teoría se describe como importar, escribe como realizar las consultas que se proponen a continuación.
 
-
 # 1. ¿Cuantos restaurantes hay en la base de datos? Indica cuantos y como has obtenido el resultado.
 Hay un total de 25359 en la base de datos.
 He obtenido el resultado con el siguiente comando de mongo:
@@ -55,7 +54,79 @@ db.restaurants.find({ "grades.date": {$gt:ISODate("2014-11-30") } }).pretty()
 ```mongo
 db.restaurants.find({ "grades.date": {$gt:ISODate("2014-03-11") }, "grades.grade": "A", "cuisine": "Chinese" }).pretty()
 ```
-7.	Realiza una consulta que devuelva el restaurante con puntuaciones mayores al 10-01-2013 y que esa puntuación tenga una grade igual a “B” y a su vez esa puntuación tenga un score de 5 y que ese restaurante sea de comida Chinese.
+
+# 7. Realiza una consulta que devuelva el restaurante con puntuaciones mayores al 10-01-2013 y que esa puntuación tenga una grade igual a “B” y a su vez esa puntuación tenga un score de 5 y que ese restaurante sea de comida Chinese.
+## Investigación
+```mongo
+# No funciona, ya que no cumple las dos condiciones el mismo valor
+db.restaurants.findOne({"grades.date":{$gt:ISODate("2014-01-10")}})
+
+# Probamos con la notación elemMatch, usamos notación de tabulación para hacerlo más leíble
+db.restaurants.findOne(
+  {
+    "grades": {
+      $elemMatch : {
+        "date" : { $gt : ISODate("2013-01-10") }
+      }
+    }
+  }
+)
+
+# Ahora sí que cumple las dos condiciones de igual forma
+db.restaurants.findOne(
+  {
+    "grades": {
+      $elemMatch : {
+        "date" : { $gt : ISODate("2013-01-10") },
+        "grade" : "B"
+      }
+    }
+  }
+)
+
+# Añadimos la condición del scrore de 5
+db.restaurants.findOne(
+  {
+    "grades": {
+      $elemMatch : {
+        "date" : { $gt : ISODate("2013-01-10") },
+        "grade" : "B",
+        "score" : 5
+      }
+    }
+  }
+)
+
+# Última condición, que sea un restaurante Chino
+db.restaurants.findOne(
+  {
+    "grades": {
+      $elemMatch : {
+        "date" : { $gt : ISODate("2013-01-10") },
+        "grade" : "B",
+        "score" : 5
+      }
+    },
+    "cuisine": "Chinese"
+  }
+)
+```
+
+## Resultado
+```mongo
+db.restaurants.find(
+  {
+    "grades": {
+      $elemMatch : {
+        "date" : { $gt : ISODate("2013-01-10") },
+        "grade" : "B",
+        "score" : 5
+      }
+    },
+    "cuisine": "Chinese"
+  }
+)
+```
 8.	Realiza una consulta que muestre los distintos tipos de restaurantes (cuisine) que hay (sin utilizar distinct).
 9.	Realiza una consulta que muestre cuantos restaurantes hay en Manhattan por cada tipo de cocina ordenado la cantidad de restaurantes descendientemente.
 10.	Realiza una consulta que muestre los 5 restaurantes con la puntuación media (score) más alta.
