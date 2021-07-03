@@ -47,10 +47,9 @@ Esto implica que hay un total de 957 restaurantes que sirven Tea que no son de S
 > db.restaurants.find({$and:[{"cuisine":/\bTea\b/},{"name":{$not:/Starbucks Coffee/}}]}, {"name":1, "_id":0,"borough":1})
 ```
 
-5.	Realiza una consulta que devuelva los restaurantes con puntuaciones mayores al 30-11-2014
+# 5. Realiza una consulta que devuelva los restaurantes con puntuaciones mayores al 30-11-2014
 ```
-> db.restaurants.find({ "grades.date": {$gt:ISODate("2014-03-11") } }).count()
-22233
+> db.restaurants.find({ "grades.date": {$gt:ISODate("2014-11-30") } }).pretty()
 ```
 
 6.	Realiza una consulta que devuelva el restaurantes con puntuaciones mayores al 11-03-2014, tenga una grade igual a “A” y sea de comida Chinese.
