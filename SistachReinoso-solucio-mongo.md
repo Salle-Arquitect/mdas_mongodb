@@ -185,7 +185,27 @@ db.restaurants.find(
   }
 ).pretty()
 ```
-8.	Realiza una consulta que muestre los distintos tipos de restaurantes (cuisine) que hay (sin utilizar distinct).
+
+# 8. Realiza una consulta que muestre los distintos tipos de restaurantes (cuisine) que hay (sin utilizar distinct).
+## Investigando
+```mongo
+db.restaurants.distinct("cuisine").length
+# output: 85
+
+# El count aquí no funciona, en ser solo 85 elementos los he comparado a mano y coinciden.
+db.restaurants.aggregate([
+  { $group : { "_id" : "$cuisine" } },
+  { $sort : { "_id" : 1 } }
+])
+```
+
+## Resultado
+```mongo
+db.restaurants.aggregate([
+  { $group : { "_id" : "$cuisine" } }
+])
+```
+
 9.	Realiza una consulta que muestre cuantos restaurantes hay en Manhattan por cada tipo de cocina ordenado la cantidad de restaurantes descendientemente.
 10.	Realiza una consulta que muestre los 5 restaurantes con la puntuación media (score) más alta.
 11.	Realiza una consulta muestra los borough que tienen entre 40 y 60 restaurantes.
