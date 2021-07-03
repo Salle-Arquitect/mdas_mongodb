@@ -298,4 +298,7 @@ db.restaurants.updateMany(
 db.restaurants.remove({ "cuisine" : "Mediterranean" })
 ```
 
-15.	¿Con que comando borrarías toda la colección restaurants?
+# 15. ¿Con que comando borrarías toda la colección restaurants?
+```mongo
+db.restaurants.drop()
+```
