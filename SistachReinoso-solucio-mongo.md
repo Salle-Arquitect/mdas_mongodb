@@ -15,13 +15,13 @@ db.restaurants.distinct("cuisine")
 
 ## Resultado
 ```mongo
-db.restaurants.find({"cuisine":/\bTea\b/}).pretty()
+db.restaurants.find({ "cuisine" : /\bTea\b/ }).pretty()
 ```
 
 # 3. Busca los restaurantes donde sirvan Tea y otras cosas y no sean Starbucks Coffee
 ## Investigando
 ```mongo
-db.restaurants.find({"cuisine":/\bTea\b/}).count()
+db.restaurants.find({ "cuisine" : /\bTea\b/ }).count()
 # output: 1216
 
 db.restaurants.find(
@@ -37,7 +37,7 @@ db.restaurants.find(
 db.restaurants.find(
   {
     "cuisine" : /\bTea\b/,
-    "name" : { $not : /Starbucks Coffee/ }
+    "name" : { "$not" : /Starbucks Coffee/ }
   }
 ).count()
 # output 957
@@ -50,7 +50,7 @@ Esto implica que hay un total de 957 restaurantes que sirven Tea que no son de S
 db.restaurants.find(
   {
     "cuisine" : /\bTea\b/,
-    "name" : { $not : /Starbucks Coffee/ }
+    "name" : { "$not" : /Starbucks Coffee/ }
   }
 ).pretty()
 ```
@@ -60,7 +60,7 @@ db.restaurants.find(
 db.restaurants.find(
   {
     "cuisine" : /\bTea\b/,
-    "name" : { $not : /Starbucks Coffee/ }
+    "name" : { "$not" : /Starbucks Coffee/ }
   },
   {
     "_id" : 0,
@@ -74,7 +74,7 @@ db.restaurants.find(
 ```mongo
 db.restaurants.find(
   {
-    "grades.date" : { $gt : ISODate("2014-11-30") }
+    "grades.date" : { "$gt" : ISODate("2014-11-30") }
   }
 ).pretty()
 ```
@@ -84,7 +84,7 @@ db.restaurants.find(
 ```mongo
 db.restaurants.find(
   {
-    "grades.date" : { $gt : ISODate("2014-03-11") },
+    "grades.date" : { "$gt" : ISODate("2014-03-11") },
     "grades.grade" : "A",
     "cuisine": "Chinese"
   }
@@ -93,7 +93,7 @@ db.restaurants.find(
 
 db.restaurants.find(
   {
-    "grades.date" : { $gt : ISODate("2014-03-11") },
+    "grades.date" : { "$gt" : ISODate("2014-03-11") },
     "grades.grade" : "A",
     "cuisine": /\bChinese\b/
   }
@@ -106,7 +106,7 @@ Nota: se pide que sea comida `Chinese`, no que solo sea `Chinese`.
 ```mongo
 db.restaurants.find(
   {
-    "grades.date" : { $gt : ISODate("2014-03-11") },
+    "grades.date" : { "$gt" : ISODate("2014-03-11") },
     "grades.grade" : "A",
     "cuisine": /\bChinese\b/
   }
@@ -117,14 +117,14 @@ db.restaurants.find(
 ## Investigación
 ```mongo
 # No funciona, ya que no cumple las dos condiciones el mismo valor
-db.restaurants.findOne({"grades.date":{$gt:ISODate("2014-01-10")}})
+db.restaurants.findOne({"grades.date":{"$gt":ISODate("2014-01-10")}})
 
 # Probamos con la notación elemMatch, usamos notación de tabulación para hacerlo más leíble
 db.restaurants.findOne(
   {
     "grades": {
-      $elemMatch : {
-        "date" : { $gt : ISODate("2013-01-10") }
+      "$elemMatch" : {
+        "date" : { "$gt" : ISODate("2013-01-10") }
       }
     }
   }
@@ -134,8 +134,8 @@ db.restaurants.findOne(
 db.restaurants.findOne(
   {
     "grades": {
-      $elemMatch : {
-        "date" : { $gt : ISODate("2013-01-10") },
+      "$elemMatch" : {
+        "date" : { "$gt" : ISODate("2013-01-10") },
         "grade" : "B"
       }
     }
@@ -146,8 +146,8 @@ db.restaurants.findOne(
 db.restaurants.findOne(
   {
     "grades": {
-      $elemMatch : {
-        "date" : { $gt : ISODate("2013-01-10") },
+      "$elemMatch" : {
+        "date" : { "$gt" : ISODate("2013-01-10") },
         "grade" : "B",
         "score" : 5
       }
@@ -159,8 +159,8 @@ db.restaurants.findOne(
 db.restaurants.findOne(
   {
     "grades": {
-      $elemMatch : {
-        "date" : { $gt : ISODate("2013-01-10") },
+      "$elemMatch" : {
+        "date" : { "$gt" : ISODate("2013-01-10") },
         "grade" : "B",
         "score" : 5
       }
@@ -175,8 +175,8 @@ db.restaurants.findOne(
 db.restaurants.find(
   {
     "grades": {
-      $elemMatch : {
-        "date" : { $gt : ISODate("2013-01-10") },
+      "$elemMatch" : {
+        "date" : { "$gt" : ISODate("2013-01-10") },
         "grade" : "B",
         "score" : 5
       }
@@ -194,15 +194,15 @@ db.restaurants.distinct("cuisine").length
 
 # El count aquí no funciona, en ser solo 85 elementos los he comparado a mano y coinciden.
 db.restaurants.aggregate([
-  { $group : { "_id" : "$cuisine" } },
-  { $sort : { "_id" : 1 } }
+  { "$group" : { "_id" : "$cuisine" } },
+  { "$sort" : { "_id" : 1 } }
 ])
 ```
 
 ## Resultado
 ```mongo
 db.restaurants.aggregate([
-  { $group : { "_id" : "$cuisine" } }
+  { "$group" : { "_id" : "$cuisine" } }
 ])
 ```
 
@@ -218,14 +218,14 @@ db.restaurants.distinct("borough").length
 ## Resultado
 ```mongo
 db.restaurants.aggregate([
-  { $match : { "borough" : "Manhattan" } },
+  { "$match" : { "borough" : "Manhattan" } },
   {
-    $group : {
+    "$group" : {
       "_id" : "$cuisine",
-      "count" : { $sum : 1 }
+      "count" : { "$sum" : 1 }
     }
   },
-  { $sort : { "count" : -1 } }
+  { "$sort" : { "count" : -1 } }
 ])
 ```
 
@@ -234,19 +234,19 @@ db.restaurants.aggregate([
 ```mongo
 db.restaurants.findOne()
 ```
-- muestre los 5 restaurantes: `{ $limit : 5 }`
-- con la puntuación media (score): `"scoreAvg" : { $avg: "$grades.score" }`
-- más alta: `{ $sort : { "scoreAvg" : -1 } }`
+- muestre los 5 restaurantes: `{ "$limit" : 5 }`
+- con la puntuación media (score): `"scoreAvg" : { "$avg" : "$grades.score" }`
+- más alta: `{ "$sort" : { "scoreAvg" : -1 } }`
 
 ## Resultado
 ```mongo
 db.restaurants.aggregate([
   { "$project" : {
-    "scoreAvg" : { $avg: "$grades.score" },
+    "scoreAvg" : { "$avg" : "$grades.score" },
     "name" : "$name"
   }},
-  { $sort : { "scoreAvg" : -1 } },
-  { $limit : 5 }
+  { "$sort" : { "scoreAvg" : -1 } },
+  { "$limit" : 5 }
 ])
 ```
 
