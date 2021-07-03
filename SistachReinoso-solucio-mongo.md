@@ -5,8 +5,7 @@ Dada la base de datos de restaurantes que en la que en la teoría se describe co
 Hay un total de 25359 en la base de datos.
 He obtenido el resultado con el siguiente comando de mongo:
 ```mongo
-> db.restaurants.count()
-25359
+db.restaurants.count()
 ```
 
 # 2. Busca los restaurantes donde sirvan Tea y otras cosas.
@@ -17,7 +16,7 @@ He obtenido el resultado con el siguiente comando de mongo:
 
 ## Resultado
 ```mongo
-> db.restaurants.find({"cuisine":/\bTea\b/}).pretty()
+db.restaurants.find({"cuisine":/\bTea\b/}).pretty()
 ```
 
 # 3. Busca los restaurantes donde sirvan Tea y otras cosas y no sean Starbucks Coffee
@@ -39,22 +38,22 @@ Un total de 259 restaurantes que sirvan Tea siendo de Starbucks Coffee.
 Esto implica que hay un total de 957 restaurantes que sirven Tea que no son de Starbucks Coffee.
 ## Resultado
 ```mongo
-> db.restaurants.find({$and:[{"cuisine":/\bTea\b/},{"name":{$not:/Starbucks Coffee/}}]}).pretty()
+db.restaurants.find({$and:[{"cuisine":/\bTea\b/},{"name":{$not:/Starbucks Coffee/}}]}).pretty()
 ```
 
 # 4. De la consulta anterior ahora debe devolver solo el name y el borough.
 ```mongo
-> db.restaurants.find({$and:[{"cuisine":/\bTea\b/},{"name":{$not:/Starbucks Coffee/}}]}, {"name":1, "_id":0,"borough":1})
+db.restaurants.find({$and:[{"cuisine":/\bTea\b/},{"name":{$not:/Starbucks Coffee/}}]}, {"name":1, "_id":0,"borough":1})
 ```
 
 # 5. Realiza una consulta que devuelva los restaurantes con puntuaciones mayores al 30-11-2014
 ```mongo
-> db.restaurants.find({ "grades.date": {$gt:ISODate("2014-11-30") } }).pretty()
+db.restaurants.find({ "grades.date": {$gt:ISODate("2014-11-30") } }).pretty()
 ```
 
 # 6. Realiza una consulta que devuelva el restaurantes con puntuaciones mayores al 11-03-2014, tenga una grade igual a “A” y sea de comida Chinese.
 ```mongo
-> db.restaurants.find({ "grades.date": {$gt:ISODate("2014-03-11") }, "grades.grade": "A", "cuisine": "Chinese" }).pretty()
+db.restaurants.find({ "grades.date": {$gt:ISODate("2014-03-11") }, "grades.grade": "A", "cuisine": "Chinese" }).pretty()
 ```
 7.	Realiza una consulta que devuelva el restaurante con puntuaciones mayores al 10-01-2013 y que esa puntuación tenga una grade igual a “B” y a su vez esa puntuación tenga un score de 5 y que ese restaurante sea de comida Chinese.
 8.	Realiza una consulta que muestre los distintos tipos de restaurantes (cuisine) que hay (sin utilizar distinct).
