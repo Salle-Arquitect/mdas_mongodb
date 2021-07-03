@@ -263,7 +263,26 @@ db.restaurants.aggregate([
 ])
 ```
 
-12.	Cual seria el comando para insertar un nuevo restaurante, con nombre “Pa amb Tomaquet”, con cocina Mediterranea, con un grade creado hoy con puntuación 15 y grade A.
+# 12. Cual seria el comando para insertar un nuevo restaurante, con nombre “Pa amb Tomaquet”, con cocina Mediterranea, con un grade creado hoy con puntuación 15 y grade A.
+- name: "Pa amb Tomaquet"
+- cuisine: "Mediterranea"
+- grade
+  - date hoy?
+  - score 15
+  - grade A
+```mongo
+db.restaurants.insert({
+  "name" : "Pa amb Tomaquet",
+  "cuisine" : "Mediterranean",
+  "grades" :[{
+    "date" : new Date($year, $month, $dayOfMonth),
+    "score" : 15,
+    "grade" : "A"
+  }]
+})
+```
+TODO pendent de com crear la data d'avui!
+
 13.	¿Cuál seria el comando para cambiar todos los restaurantes de comida Italian a Mediterranea?
 14.	¿Cuál seria el comando para borrar todos los restaurantes de comida Mediterranea?
 15.	¿Con que comando borrarías toda la colección restaurants?
