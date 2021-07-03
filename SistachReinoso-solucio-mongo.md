@@ -250,7 +250,19 @@ db.restaurants.aggregate([
 ])
 ```
 
-11.	Realiza una consulta muestra los borough que tienen entre 40 y 60 restaurantes.
+# 11. Realiza una consulta muestra los `borough` que tienen entre 40 y 60 restaurantes.
+```mongo
+db.restaurants.aggregate([
+  { "$group" : {
+    "_id" : "$borough",
+    "count" : { "$sum" : 1 }
+  }},
+  { "$match" : {
+    "count" : { "$gt" : 40, "$lt" : 60 }
+  }}
+])
+```
+
 12.	Cual seria el comando para insertar un nuevo restaurante, con nombre “Pa amb Tomaquet”, con cocina Mediterranea, con un grade creado hoy con puntuación 15 y grade A.
 13.	¿Cuál seria el comando para cambiar todos los restaurantes de comida Italian a Mediterranea?
 14.	¿Cuál seria el comando para borrar todos los restaurantes de comida Mediterranea?
