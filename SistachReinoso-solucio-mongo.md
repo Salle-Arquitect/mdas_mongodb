@@ -206,7 +206,29 @@ db.restaurants.aggregate([
 ])
 ```
 
-9.	Realiza una consulta que muestre cuantos restaurantes hay en Manhattan por cada tipo de cocina ordenado la cantidad de restaurantes descendientemente.
+# 9. Realiza una consulta que muestre cuantos restaurantes hay en Manhattan por cada tipo de cocina ordenado la cantidad de restaurantes descendientemente.
+## Investigación
+```mongo
+db.restaurants.findOne()
+
+db.restaurants.distinct("borough").length
+# output: 6, Manhattan no aparece duplicado.
+```
+
+## Resultado
+```mongo
+db.restaurants.aggregate([
+  { $match : { "borough" : "Manhattan" } },
+  {
+    $group : {
+      "_id" : "$cuisine",
+      "count" : { $sum : 1 }
+    }
+  },
+  { $sort : { "count" : -1 } }
+])
+```
+
 10.	Realiza una consulta que muestre los 5 restaurantes con la puntuación media (score) más alta.
 11.	Realiza una consulta muestra los borough que tienen entre 40 y 60 restaurantes.
 12.	Cual seria el comando para insertar un nuevo restaurante, con nombre “Pa amb Tomaquet”, con cocina Mediterranea, con un grade creado hoy con puntuación 15 y grade A.
