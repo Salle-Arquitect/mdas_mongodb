@@ -80,12 +80,35 @@ db.restaurants.find(
 ```
 
 # 6. Realiza una consulta que devuelva el restaurantes con puntuaciones mayores al 11-03-2014, tenga una grade igual a “A” y sea de comida Chinese.
+## Investigación
 ```mongo
 db.restaurants.find(
   {
     "grades.date" : { $gt : ISODate("2014-03-11") },
     "grades.grade" : "A",
     "cuisine": "Chinese"
+  }
+).count()
+# output: 2061
+
+db.restaurants.find(
+  {
+    "grades.date" : { $gt : ISODate("2014-03-11") },
+    "grades.grade" : "A",
+    "cuisine": /\bChinese\b/
+  }
+).count()
+# output: 2116
+```
+Nota: se pide que sea comida `Chinese`, no que solo sea `Chinese`.
+
+## Resultado
+```mongo
+db.restaurants.find(
+  {
+    "grades.date" : { $gt : ISODate("2014-03-11") },
+    "grades.grade" : "A",
+    "cuisine": /\bChinese\b/
   }
 ).pretty()
 ```
@@ -142,7 +165,7 @@ db.restaurants.findOne(
         "score" : 5
       }
     },
-    "cuisine": "Chinese"
+    "cuisine": /\bChinese\b/
   }
 )
 ```
@@ -158,7 +181,7 @@ db.restaurants.find(
         "score" : 5
       }
     },
-    "cuisine": "Chinese"
+    "cuisine": /\bChinese\b/
   }
 ).pretty()
 ```
