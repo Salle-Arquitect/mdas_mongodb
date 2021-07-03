@@ -1,44 +1,46 @@
-
 Dada la base de datos de restaurantes que en la que en la teoría se describe como importar, escribe como realizar las consultas que se proponen a continuación.
 
 
-1.	¿Cuantos restaurantes hay en la base de datos? Indica cuantos y como has obtenido el resultado.
-```
+# 1. ¿Cuantos restaurantes hay en la base de datos? Indica cuantos y como has obtenido el resultado.
+Hay un total de 25359 en la base de datos.
+He obtenido el resultado con el siguiente comando de mongo:
+```mongo
 > db.restaurants.count()
 25359
-
-2.	Busca los restaurantes donde sirvan Tea y otras cosas.
-Investigando:
 ```
+
+# 2. Busca los restaurantes donde sirvan Tea y otras cosas.
+## Investigando
+```mongo
 > db.restaurants.distinct("cuisine")
 ```
 
-Resultado:
+## Resultado
+```mongo
+> db.restaurants.find({"cuisine":/\bTea\b/}).pretty()
 ```
+
+# 3. Busca los restaurantes donde sirvan Tea y otras cosas y no sean Starbucks Coffee
+## Investigando
+```mongo
 > db.restaurants.find({"cuisine":/\bTea\b/}).count()
 1216
+
+> db.restaurants.find({"cuisine":/\bTea\b/, "name":/Starbucks Coffee/}).count()
+259
+
+1216 - 259 = 957
+
+> db.restaurants.find({$and:[{"cuisine":/\bTea\b/},{"name":{$not:/Starbucks Coffee/}}]}).count()
+957
 ```
+Hay un total de 1216 restaurantes que sirvan Tea.
+Un total de 259 restaurantes que sirvan Tea siendo de Starbucks Coffee.
+Esto implica que hay un total de 957 restaurantes que sirven Tea que no son de Starbucks Coffee.
 
-3.	Busca los restaurantes donde sirvan Tea y otras cosas y no sean Starbucks Coffee
-Investigando
-```
-> db.restaurants.find({"cuisine":/\bTea\b/, "name":"Starbucks"}).count()
-11
-
-> db.restaurants.find({"cuisine":/\bTea\b/, "name":/(?!Starbucks)/}).count()
-1216
-
-> db.restaurants.find({"cuisine":/\bTea\b/, "name":/^Starbucks/}).count()
-276
-
-
-1216 - 940 = 276, se espera 940
-```
-
-Resultado:
-```
-> db.restaurants.find({"cuisine":/\bTea\b/, "name":/^(?!Starbucks)/}).count()
-940
+## Resultado
+```mongo
+> db.restaurants.find({$and:[{"cuisine":/\bTea\b/},{"name":{$not:/Starbucks Coffee/}}]}).pretty()
 ```
 
 4.	De la consulta anterior ahora debe devolver solo el name y el borough.
