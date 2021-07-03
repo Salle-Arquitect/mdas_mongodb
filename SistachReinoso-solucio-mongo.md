@@ -283,6 +283,15 @@ db.restaurants.insert({
 ```
 TODO pendent de com crear la data d'avui!
 
-13.	¿Cuál seria el comando para cambiar todos los restaurantes de comida Italian a Mediterranea?
+# 13. ¿Cuál seria el comando para cambiar todos los restaurantes de comida Italian a Mediterranea?
+```mongo
+db.restaurants.updateMany(
+  { "cuisine" : "Italian" },
+  { "$set" : {
+    "cuisine" : "Mediterranean"
+  }}
+)
+```
+
 14.	¿Cuál seria el comando para borrar todos los restaurantes de comida Mediterranea?
 15.	¿Con que comando borrarías toda la colección restaurants?
