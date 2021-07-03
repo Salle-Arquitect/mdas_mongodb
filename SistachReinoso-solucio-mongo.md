@@ -229,7 +229,27 @@ db.restaurants.aggregate([
 ])
 ```
 
-10.	Realiza una consulta que muestre los 5 restaurantes con la puntuación media (score) más alta.
+# 10. Realiza una consulta que muestre los 5 restaurantes con la puntuación media (score) más alta.
+## Investigación
+```mongo
+db.restaurants.findOne()
+```
+- muestre los 5 restaurantes: `{ $limit : 5 }`
+- con la puntuación media (score): `"scoreAvg" : { $avg: "$grades.score" }`
+- más alta: `{ $sort : { "scoreAvg" : -1 } }`
+
+## Resultado
+```mongo
+db.restaurants.aggregate([
+  { "$project" : {
+    "scoreAvg" : { $avg: "$grades.score" },
+    "name" : "$name"
+  }},
+  { $sort : { "scoreAvg" : -1 } },
+  { $limit : 5 }
+])
+```
+
 11.	Realiza una consulta muestra los borough que tienen entre 40 y 60 restaurantes.
 12.	Cual seria el comando para insertar un nuevo restaurante, con nombre “Pa amb Tomaquet”, con cocina Mediterranea, con un grade creado hoy con puntuación 15 y grade A.
 13.	¿Cuál seria el comando para cambiar todos los restaurantes de comida Italian a Mediterranea?
