@@ -1,3 +1,6 @@
+Se encuentra también el resultado en https://github.com/Salle-Arquitect/mdas_mongodb/blob/master/SistachReinoso-solucio-mongo.md
+En la plataforma de github se facilita el poder hacer copy paste.
+
 Dada la base de datos de restaurantes que en la que en la teoría se describe como importar, escribe como realizar las consultas que se proponen a continuación.
 
 # 1. ¿Cuantos restaurantes hay en la base de datos? Indica cuantos y como has obtenido el resultado.
